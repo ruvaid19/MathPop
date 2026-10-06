@@ -17,34 +17,89 @@ struct GameView: View {
     @State private var userAnswer = ""
 
     var body: some View {
-        VStack(spacing: 30) {
-            Text("Question \(questionNumber + 1) of \(questions.count)")
-                .font(.headline)
+        VStack(spacing: 25) {
 
-            Text(questions[questionNumber].text)
-                .font(.system(size: 50, weight: .bold))
+            HStack {
+                VStack(alignment: .leading) {
+                    Text("Question")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
 
-            TextField("Your answer", text: $userAnswer)
-                .keyboardType(.numberPad)
-                .textFieldStyle(.roundedBorder)
-                .font(.title)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal)
+                    Text("\(questionNumber + 1) / \(questions.count)")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                }
 
-            Button("Submit") {
-                if let answer = Int(userAnswer) {
-                    let isCorrect = answer == questions[questionNumber].answer
+                Spacer()
 
-                    answerSubmitted(isCorrect)
+                VStack(alignment: .trailing) {
+                    Text("Score")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
 
-                    userAnswer = ""
+                    Text("\(score)")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .contentTransition(.numericText())
                 }
             }
-            .buttonStyle(.borderedProminent)
 
-            Text("Score: \(score)")
-                .font(.headline)
+            ProgressView(
+                value: Double(questionNumber + 1),
+                total: Double(questions.count)
+            )
+            .tint(.blue)
+
+            Spacer()
+
+            VStack(spacing: 20) {
+                Text("Solve this")
+                    .font(.headline)
+                    .foregroundStyle(.secondary)
+
+                Text(questions[questionNumber].text)
+                    .font(.system(size: 55, weight: .bold))
+                    .contentTransition(.numericText())
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 45)
+            .background(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 30))
+            .shadow(radius: 15)
+            .padding(.horizontal)
+
+            TextField("Enter your answer", text: $userAnswer)
+                .keyboardType(.numberPad)
+                .font(.title)
+                .multilineTextAlignment(.center)
+                .textFieldStyle(.roundedBorder)
+                .padding(.horizontal)
+
+            Button {
+                submitAnswer()
+            } label: {
+                Text("Submit Answer")
+                    .font(.headline)
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(.blue)
+                    .clipShape(RoundedRectangle(cornerRadius: 18))
+            }
+            .padding(.horizontal)
+
+            Spacer()
         }
         .padding()
+    }
+
+    private func submitAnswer() {
+        if let answer = Int(userAnswer) {
+            let isCorrect = answer == questions[questionNumber].answer
+
+            answerSubmitted(isCorrect)
+
+            userAnswer = ""
+        }
     }
 }

@@ -15,55 +15,84 @@ struct ContentView: View {
     @State private var questionNumber = 0
     @State private var score = 0
 
+    @State private var selectedTable = 5
+    @State private var numberOfQuestions = 5
+
     var body: some View {
-        if showResults {
-            ResultsView(
-                score: score,
-                totalQuestions: questions.count,
-                playAgain: {
-                    showResults = false
-                }
+        ZStack {
+            LinearGradient(
+                colors: [
+                    Color.blue.opacity(0.8),
+                    Color.purple.opacity(0.8)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
             )
-        } else if gameStarted {
-            GameView(
-                questions: questions,
-                questionNumber: questionNumber,
-                score: score
-            ) { isCorrect in
+            .ignoresSafeArea()
 
-                if isCorrect {
-                    score += 1
-                }
-
-                if questionNumber == questions.count - 1 {
+            if showResults {
+                ResultsView(
+                    score: score,
+                    totalQuestions: questions.count
+                ) {
+                    showResults = false
                     gameStarted = false
-                    showResults = true
-                } else {
-                    questionNumber += 1
                 }
-            }
-        } else {
-            SettingsView { table, numberOfQuestions in
+                .transition(.scale.combined(with: .opacity))
 
-                questions = []
+            } else if gameStarted {
+                GameView(
+                    questions: questions,
+                    questionNumber: questionNumber,
+                    score: score
+                ) { isCorrect in
 
-                for _ in 0..<numberOfQuestions {
-                    let number = Int.random(in: 2...12)
-                    let answer = table * number
-                    let text = "\(table) × \(number)"
+                    if isCorrect {
+                        score += 1
+                    }
 
-                    let question = Question(
-                        text: text,
-                        answer: answer
-                    )
-
-                    questions.append(question)
+                    withAnimation {
+                        if questionNumber == questions.count - 1 {
+                            gameStarted = false
+                            showResults = true
+                        } else {
+                            questionNumber += 1
+                        }
+                    }
                 }
+                .transition(.move(edge: .trailing))
+            } else {
+                SettingsView { table, questionsCount in
 
-                score = 0
-                questionNumber = 0
-                showResults = false
-                gameStarted = true
+                    selectedTable = table
+                    numberOfQuestions = questionsCount
+
+                    questions = []
+
+                    for _ in 0..<questionsCount {
+                        let tableNumber = Int.random(in: 2...table)
+                        let number = Int.random(in: 2...12)
+
+                        let answer = tableNumber * number
+                        let text = "\(tableNumber) × \(number)"
+
+                        let question = Question(
+                            text: text,
+                            answer: answer
+                        )
+
+                        questions.append(question)
+                    }
+
+                    score = 0
+                    questionNumber = 0
+                    showResults = false
+
+                    withAnimation {
+                        gameStarted = true
+                    }
+                }
+                .transition(.opacity)
             }
         }
     }

@@ -8,30 +8,46 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @State private var selectedTable = 2
+    @State private var selectedTable = 5
     @State private var numberOfQuestions = 5
 
     let startGame: (Int, Int) -> Void
 
     var body: some View {
-        NavigationStack {
-            VStack(spacing: 30) {
-                Text("Multiplication Master")
+        VStack(spacing: 25) {
+            Spacer()
+
+            VStack(spacing: 8) {
+                Text("Multiplication")
                     .font(.largeTitle)
                     .fontWeight(.bold)
+                    .foregroundStyle(.white)
 
-                VStack {
-                    Text("Choose your table")
+                Text("Master your tables")
+                    .font(.title3)
+                    .foregroundStyle(.white.opacity(0.8))
+            }
+
+            VStack(spacing: 25) {
+                VStack(spacing: 12) {
+                    Text("Practice tables up to")
                         .font(.headline)
 
+                    Text("Table \(selectedTable)")
+                        .font(.system(size: 40, weight: .bold))
+                        .foregroundStyle(.blue)
+
                     Stepper(
-                        "Table: \(selectedTable)",
+                        "Up to \(selectedTable)",
                         value: $selectedTable,
                         in: 2...12
                     )
+                    .padding(.horizontal)
                 }
 
-                VStack {
+                Divider()
+
+                VStack(spacing: 12) {
                     Text("Number of questions")
                         .font(.headline)
 
@@ -45,15 +61,28 @@ struct SettingsView: View {
                     }
                     .pickerStyle(.segmented)
                 }
-
-                Button("Start Game") {
-                    startGame(selectedTable, numberOfQuestions)
-                }
-                .buttonStyle(.borderedProminent)
-                .font(.headline)
             }
-            .padding()
-            .navigationTitle("Practice")
+            .padding(25)
+            .background(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 25))
+            .shadow(radius: 15)
+            .padding(.horizontal)
+
+            Button {
+                startGame(selectedTable, numberOfQuestions)
+            } label: {
+                Text("Start Game")
+                    .font(.headline)
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(.black.opacity(0.8))
+                    .clipShape(RoundedRectangle(cornerRadius: 18))
+            }
+            .padding(.horizontal)
+            .scaleEffect(1.0)
+
+            Spacer()
         }
     }
 }
