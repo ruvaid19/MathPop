@@ -15,15 +15,16 @@ struct ContentView: View {
     @State private var questionNumber = 0
     @State private var score = 0
 
-    @State private var selectedTable = 5
+    @State private var selectedTable = 9
     @State private var numberOfQuestions = 5
 
     var body: some View {
         ZStack {
             LinearGradient(
                 colors: [
-                    Color.blue.opacity(0.8),
-                    Color.purple.opacity(0.8)
+                    Color(red: 0.08, green: 0.34, blue: 0.25),
+                    Color(red: 0.16, green: 0.55, blue: 0.36),
+                    Color(red: 0.48, green: 0.74, blue: 0.50)
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing

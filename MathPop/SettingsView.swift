@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @State private var selectedTable = 5
+    @State private var selectedTable = 9
     @State private var numberOfQuestions = 5
 
     let startGame: (Int, Int) -> Void
