@@ -63,7 +63,16 @@ struct GameView: View {
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 45)
-            .background(.white)
+            .background(
+                LinearGradient(
+                    colors: [
+                        Color(red: 0.91, green: 0.97, blue: 0.90),
+                        Color(red: 0.76, green: 0.89, blue: 0.79)
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            )
             .clipShape(RoundedRectangle(cornerRadius: 30))
             .shadow(radius: 15)
             .padding(.horizontal)
