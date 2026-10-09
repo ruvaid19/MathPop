@@ -35,7 +35,7 @@ struct SettingsView: View {
 
                     Text("Table \(selectedTable)")
                         .font(.system(size: 40, weight: .bold))
-                        .foregroundStyle(.blue)
+                        .foregroundStyle(Color(red: 0.07, green: 0.38, blue: 0.22))
 
                     Stepper(
                         "Up to \(selectedTable)",
