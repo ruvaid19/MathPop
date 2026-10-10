@@ -34,7 +34,7 @@ struct SettingsView: View {
                         .font(.headline)
 
                     Text("Table \(selectedTable)")
-                        .font(.system(size: 40, weight: .bold))
+                        .font(.system(size: 38, weight: .bold))
                         .foregroundStyle(Color(red: 0.07, green: 0.38, blue: 0.22))
 
                     Stepper(
